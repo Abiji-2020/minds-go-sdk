@@ -6,13 +6,12 @@ import (
 	"net/http"
 )
 
-func (api *RestAPI) Post(url string, data interface{}) (*http.Response, error) {
+func (api *RestAPI) Patch(url string, data interface{}) (*http.Response, error) {
 	jsonData, err := json.Marshal(data)
 	if err != nil {
 		return nil, err
 	}
-
-	req, err := http.NewRequest("POST", api.BaseURL+url, bytes.NewBuffer(jsonData))
+	req, err := http.NewRequest("PATCH", api.BaseURL+url, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return nil, err
 	}
@@ -20,7 +19,7 @@ func (api *RestAPI) Post(url string, data interface{}) (*http.Response, error) {
 
 	resp, err := api.Client.Do(req)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	defer resp.Body.Close()
 
