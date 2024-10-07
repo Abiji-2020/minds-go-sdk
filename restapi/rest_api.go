@@ -53,19 +53,19 @@ func (api *RestAPI) headers() http.Header {
 
 func raiseForStatus(resp *http.Response) error {
 	if resp.StatusCode == 404 {
-		return errors.New("Object Not found")
+		return errors.New("object not found")
 	}
 
 	if resp.StatusCode == 403 {
-		return errors.New("Forbidden")
+		return errors.New("forbidden")
 	}
 
 	if resp.StatusCode == 401 {
-		return errors.New("Unauthorized")
+		return errors.New("unauthorized")
 
 	}
 	if resp.StatusCode >= 400 {
-		return fmt.Errorf("Unknown error: %s", resp.Status)
+		return fmt.Errorf("unknown error: %s", resp.Status)
 	}
 	return nil
 }

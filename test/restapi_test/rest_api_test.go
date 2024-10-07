@@ -4,7 +4,6 @@ import (
 	"github.com/Abiji-2020/minds-go-sdk/restapi"
 	"net/http"
 	"net/http/httptest"
-	
 )
 
 var (
