@@ -5,7 +5,7 @@ import (
 	"errors"
 )
 
-func (ds *Datasource) Create(dbConfig DatabaseConfig, replace bool) error {
+func (ds *Datasource) Create(dbConfig DatabaseConfig, replace bool) (*DatabaseConfig, error) {
 	if replace {
 		if _, err := ds.Get(dbConfig.Name); err == nil {
 			ds.Drop(dbConfig.Name)
@@ -16,14 +16,14 @@ func (ds *Datasource) Create(dbConfig DatabaseConfig, replace bool) error {
 	resp, err := ds.config.Post("/datasources", data)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 201 {
-		return errors.New("failed to create datasource")
+		return nil, errors.New("failed to create datasource")
 	}
-	return nil
+	return &dbConfig, nil
 
 }

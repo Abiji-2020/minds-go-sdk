@@ -18,8 +18,6 @@ func (api *RestAPI) Get(url string) (*http.Response, error) {
 		return nil, err
 	}
 
-	defer resp.Body.Close()
-
 	if err := raiseForStatus(resp); err != nil {
 		return nil, err
 	}
