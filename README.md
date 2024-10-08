@@ -1,2 +1,2 @@
-# minds_go_sdk
+# Minds `Go` SDK
 
