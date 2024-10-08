@@ -13,7 +13,6 @@ func (ds *Datasource) Get(name string) (*DatabaseConfig, error) {
 
 	resp, err := ds.config.Get("/datasources/" + name)
 	if err != nil {
-		fmt.Println("Error while getting value:", err)
 		return nil, err
 	}
 	defer resp.Body.Close()
@@ -27,14 +26,12 @@ func (ds *Datasource) Get(name string) (*DatabaseConfig, error) {
 	// Read the body of the response
 	bodyBytes, err := io.ReadAll(resp.Body) // Read the body before closing
 	if err != nil {
-		fmt.Println("Error reading response body:", err)
 		return nil, err
 	}
 
 	// Decode the response body into DatabaseConfig
 	var dbConfig DatabaseConfig
 	if err := json.Unmarshal(bodyBytes, &dbConfig); err != nil {
-		fmt.Println("Error decoding JSON:", err)
 		return nil, err
 	}
 
