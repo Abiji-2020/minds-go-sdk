@@ -21,7 +21,7 @@ func (ds *Datasource) Create(dbConfig DatabaseConfig, replace bool) (*DatabaseCo
 
 	defer resp.Body.Close()
 
-	if resp.StatusCode != 201 {
+	if resp.StatusCode != 200 {
 		return nil, errors.New("failed to create datasource")
 	}
 	return &dbConfig, nil

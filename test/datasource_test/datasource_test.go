@@ -22,7 +22,7 @@ func setupMockServer() {
 				w.WriteHeader(http.StatusOK)
 				w.Write([]byte(`[{"name":"test_datasource","engine":"postgres"}]`))
 			} else if r.Method == http.MethodPost {
-				w.WriteHeader(http.StatusCreated)
+				w.WriteHeader(http.StatusOK)
 				w.Write([]byte(`{"name":"test_datasource", "engine":"postgres"}`))
 			}
 		case "/api/datasources/test_datasource":
@@ -30,6 +30,8 @@ func setupMockServer() {
 				w.WriteHeader(http.StatusOK)
 				w.Write([]byte(`{"name":"test_datasource", "engine":"postgres"}`))
 			} else if r.Method == http.MethodDelete {
+				w.WriteHeader(http.StatusOK)
+			} else if r.Method == http.MethodPatch {
 				w.WriteHeader(http.StatusOK)
 			}
 		default:
