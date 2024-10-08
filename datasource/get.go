@@ -30,7 +30,6 @@ func (ds *Datasource) Get(name string) (*DatabaseConfig, error) {
 		fmt.Println("Error reading response body:", err)
 		return nil, err
 	}
-	fmt.Printf("Response body: %s\n", bodyBytes)
 
 	// Decode the response body into DatabaseConfig
 	var dbConfig DatabaseConfig
