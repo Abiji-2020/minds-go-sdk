@@ -11,6 +11,10 @@ func (ds *Datasource) Drop(name string) error {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode == 204 {
+		return errors.New("no datasource to delete")
+	}
+
 	if resp.StatusCode != 200 {
 		return errors.New("failed to delete datasource")
 	}

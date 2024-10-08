@@ -22,8 +22,6 @@ func (api *RestAPI) Post(url string, data interface{}) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
-
 	if err := raiseForStatus(resp); err != nil {
 		return nil, err
 	}

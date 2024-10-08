@@ -30,7 +30,7 @@ func setupMockServer() {
 				w.WriteHeader(http.StatusOK)
 				w.Write([]byte(`{"name":"test_datasource", "engine":"postgres"}`))
 			} else if r.Method == http.MethodDelete {
-				w.WriteHeader(http.StatusNoContent)
+				w.WriteHeader(http.StatusOK)
 			}
 		default:
 			w.WriteHeader(http.StatusNotFound)

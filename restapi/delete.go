@@ -15,7 +15,7 @@ func (api *RestAPI) Delete(url string) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
+
 	if err := raiseForStatus(resp); err != nil {
 		return nil, err
 	}
