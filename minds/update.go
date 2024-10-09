@@ -1,9 +1,9 @@
 package minds
 
 import (
-	"github.com/Abiji-2020/minds-go-sdk/datasource"
 	"encoding/json"
 	"errors"
+	"github.com/Abiji-2020/minds-go-sdk/datasource"
 )
 
 func (md *Minds) Update(Oldname, newName string, Datasources []datasource.DatabaseConfig) (string, error) {

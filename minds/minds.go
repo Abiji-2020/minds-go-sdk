@@ -22,6 +22,11 @@ type CreateRequest struct {
 	datasourceNames []string `json:"datasources"`
 }
 
+type AddDatasourceRequest struct {
+	Name            string `json:"name"`
+	CheckConnection bool   `json:"check_connection"`
+}
+
 func NewMinds(api *restapi.RestAPI) *Minds {
 	return &Minds{
 		config: api,
