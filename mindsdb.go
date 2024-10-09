@@ -1,1 +1,1 @@
-package mindsdb
+package minds
