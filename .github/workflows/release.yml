@@ -1,0 +1,79 @@
+name: Auto Versioning and Release
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger on pull requests to the main branch
+
+jobs:
+  versioning:
+    name: Bump Version and Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Fetch all tags
+      run: git fetch --tags
+
+    - name: Get current version
+      id: get_version
+      run: |
+        # Check if there are any tags
+        if git describe --tags --abbrev=0 >/dev/null 2>&1; then
+          VERSION=$(git describe --tags --abbrev=0)
+        else
+          VERSION="v0.0.0"
+        fi
+        echo "Current version is $VERSION"
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Bump version
+      id: bump_version
+      run: |
+        VERSION=${{ env.VERSION }}
+        
+        # Extract major, minor, and patch
+        IFS='.' read -r MAJOR MINOR PATCH <<<"${VERSION#v}"
+
+        # Check for "major" or "minor" in the commit message or PR title
+        if [[ "${{ github.event.head_commit.message }}" =~ "major" ]]; then
+          MAJOR=$((MAJOR + 1))
+          MINOR=0
+          PATCH=0
+        elif [[ "${{ github.event.head_commit.message }}" =~ "minor" ]]; then
+          MINOR=$((MINOR + 1))
+          PATCH=0
+        else
+          PATCH=$((PATCH + 1))
+        fi
+
+        # New version
+        NEW_VERSION="v${MAJOR}.${MINOR}.${PATCH}"
+        echo "New version is $NEW_VERSION"
+        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+    - name: Set new tag
+      run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git tag ${{ env.NEW_VERSION }}
+        git push origin ${{ env.NEW_VERSION }}
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.NEW_VERSION }}
+        release_name: Release ${{ env.NEW_VERSION }}
+        draft: false
+        prerelease: false
+        body: |
+          ## Release ${{ env.NEW_VERSION }}
+          - Automatically generated version update.
