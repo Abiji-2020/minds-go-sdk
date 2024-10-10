@@ -1,54 +1,49 @@
-name: Versioning Workflow
+name: Release
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger on pushes to the main branch
 
 jobs:
-  versioning:
+  release:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Git
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+    - name: Get latest tag
+      id: get_latest_tag
+      run: echo "latest_tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
-      - name: Get latest tag
-        id: get_latest_tag
-        run: |
-          TAG=$(git tag --sort=-creatordate | grep '^v' | head -n 1)
-          echo "Latest tag: $TAG"
-          echo "latest_tag=$TAG" >> $GITHUB_ENV
+    - name: Set new tag
+      id: set_new_tag
+      run: |
+        if [ -z "${{ env.latest_tag }}" ]; then
+          echo "new_tag=v0.1.0" >> $GITHUB_ENV  # Starting version if no tag exists
+        else
+          # Increment minor version or other logic
+          IFS='.' read -r major minor patch <<< "${{ env.latest_tag#v}}"
+          minor=$((minor + 1))
+          new_tag="v${major}.${minor}.${patch}"
+          echo "new_tag=${new_tag}" >> $GITHUB_ENV
+        fi
 
-      - name: Determine new tag version
-        id: new_version
-        run: |
-          if [ -z "${{ env.latest_tag }}" ]; then
-            echo "No existing tag found, using v0.1.0 as the initial version"
-            echo "new_tag=v0.1.0" >> $GITHUB_ENV
-          else
-            # Extract the version components
-            version="${{ env.latest_tag }}"
-            version=${version/v/}  # Remove the 'v' prefix
-            IFS='.' read -r major minor patch <<< "$version"
-            new_minor=$((minor + 1))
-            new_tag="v${major}.${new_minor}.0"
-            echo "New tag: $new_tag"
-            echo "new_tag=$new_tag" >> $GITHUB_ENV
-          fi
+    - name: Generate tag description
+      id: generate_description
+      run: |
+        if [ -z "${{ env.latest_tag }}" ]; then
+          echo "description=Initial release." >> $GITHUB_ENV
+        else
+          # Get commit messages since the last tag
+          commit_messages=$(git log "${{ env.latest_tag }}..HEAD" --pretty=format:"%s" | tr '\n' ', ')
+          echo "description=Changes: $commit_messages" >> $GITHUB_ENV
+        fi
 
-      - name: Create new tag
-        run: |
-          git tag ${{ env.new_tag }}
-          echo "Created tag: ${{ env.new_tag }}"
-
-      - name: Push new tag
-        run: |
-          git push origin ${{ env.new_tag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Tag and push
+      run: |
+        git tag -a ${{ env.new_tag }} -m "${{ env.description }}"
+        git push origin ${{ env.new_tag }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the default token
