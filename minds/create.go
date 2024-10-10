@@ -8,8 +8,15 @@ import (
 )
 
 func (md *Minds) Create(name string, Datasources []datasource.DatabaseConfig) (string, error) {
+	var NotAvailable = errors.New("datasource not found")
 	DatasourceNames := []string{}
+	datasource := datasource.NewDatasource(md.Config)
 	for _, ds := range Datasources {
+
+		_, err := datasource.Get(ds.Name)
+		if err == NotAvailable {
+			datasource.Create(ds, false)
+		}
 		DatasourceNames = append(DatasourceNames, ds.Name)
 	}
 	data := CreateRequest{
