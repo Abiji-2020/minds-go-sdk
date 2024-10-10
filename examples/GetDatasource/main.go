@@ -1,4 +1,4 @@
-package main 
+package main
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	
+
 	// Initalize the Client
 	Client := client.NewClient("YOUR API KEY", " BASE URL")
 
