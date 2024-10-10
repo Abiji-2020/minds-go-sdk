@@ -42,7 +42,7 @@ func NewRestAPI(apiKey, baseURL string) *RestAPI {
 
 // Helper function to set headers
 
-func (api *RestAPI) headers() http.Header {
+func (api *RestAPI) Headers() http.Header {
 	headers := http.Header{}
 	headers.Set("Authorization", "Bearer "+api.APIKey)
 	headers.Set("Content-Type", "application/json")

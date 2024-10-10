@@ -11,7 +11,7 @@ func (api *RestAPI) Get(url string) (*http.Response, error) {
 		return nil, err
 	}
 
-	req.Header = api.headers()
+	req.Header = api.Headers()
 
 	resp, err := api.Client.Do(req)
 	if err != nil {

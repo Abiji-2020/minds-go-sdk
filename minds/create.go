@@ -8,13 +8,13 @@ import (
 )
 
 func (md *Minds) Create(name string, Datasources []datasource.DatabaseConfig) (string, error) {
-	datasourceNames := []string{}
+	DatasourceNames := []string{}
 	for _, ds := range Datasources {
-		datasourceNames = append(datasourceNames, ds.Name)
+		DatasourceNames = append(DatasourceNames, ds.Name)
 	}
 	data := CreateRequest{
 		Name:            name,
-		datasourceNames: datasourceNames,
+		DatasourceNames: DatasourceNames,
 	}
 
 	jsonData, _ := json.Marshal(data)

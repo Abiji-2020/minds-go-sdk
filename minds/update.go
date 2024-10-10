@@ -13,7 +13,7 @@ func (md *Minds) Update(Oldname, newName string, Datasources []datasource.Databa
 	}
 	data := CreateRequest{
 		Name:            newName,
-		datasourceNames: datasourceName,
+		DatasourceNames: datasourceName,
 	}
 	jsonData, _ := json.Marshal(data)
 

@@ -16,7 +16,7 @@ func (api *RestAPI) Post(url string, data interface{}) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header = api.headers()
+	req.Header = api.Headers()
 
 	resp, err := api.Client.Do(req)
 	if err != nil {
