@@ -33,7 +33,9 @@ jobs:
             echo "new_tag=v0.1.0" >> $GITHUB_ENV
           else
             # Extract the version components
-            IFS='.' read -r major minor patch <<< "${{ env.latest_tag | sed 's/v//g' }}"
+            version="${{ env.latest_tag }}"
+            version=${version/v/}  # Remove the 'v' prefix
+            IFS='.' read -r major minor patch <<< "$version"
             new_minor=$((minor + 1))
             new_tag="v${major}.${new_minor}.0"
             echo "New tag: $new_tag"
