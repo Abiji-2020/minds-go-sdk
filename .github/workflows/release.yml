@@ -15,28 +15,24 @@ jobs:
 
     - name: Get latest tag
       id: get_latest_tag
-      run: echo "latest_tag=$(git describe --tags --abbrev=0 || echo 'v0.1.0')" >> $GITHUB_ENV
+      run: echo "latest_tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
 
     - name: Set new tag
       id: set_new_tag
       run: |
-        # Extract major, minor, and patch versions from the latest tag
-        latest_tag=${{ env.latest_tag }}
-        major_minor_patch=(${latest_tag//./ })
-        major=${major_minor_patch[0]#v}  # Remove 'v' from major version
-        minor=${major_minor_patch[1]}      # Minor version
-        patch=${major_minor_patch[2]}      # Patch version
-        
-        # Increment minor version
-        minor=$((minor + 1))
-        new_tag="v${major}.${minor}.${patch}"
-        echo "new_tag=${new_tag}" >> $GITHUB_ENV
-
-    
+        if [ -z "${{ env.latest_tag }}" ]; then
+          echo "new_tag=v0.1.0" >> $GITHUB_ENV  # Starting version if no tag exists
+        else
+          # Increment minor version or other logic
+          IFS='.' read -r major minor patch <<< "${{ env.latest_tag#v}}"
+          minor=$((minor + 1))
+          new_tag="v${major}.${minor}.${patch}"
+          echo "new_tag=${new_tag}" >> $GITHUB_ENV
+        fi
 
     - name: Tag and push
       run: |
-        git tag -a "${{ env.new_tag }}" 
-        git push origin "${{ env.new_tag }}"
+        git tag ${{ env.new_tag }}
+        git push origin ${{ env.new_tag }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the default token
