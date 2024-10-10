@@ -17,7 +17,7 @@ func (md *Minds) Update(Oldname, newName string, Datasources []datasource.Databa
 	}
 	jsonData, _ := json.Marshal(data)
 
-	resp, err := md.config.Patch("/projects/mindsdb/minds/"+Oldname, jsonData)
+	resp, err := md.Config.Patch("/projects/mindsdb/minds/"+Oldname, jsonData)
 	if err != nil {
 		return "", err
 	}

@@ -9,7 +9,7 @@ import (
 
 func (md *Minds) Get(name string) (*ResponseMind, error) {
 
-	resp, err := md.config.Get("/projects/mindsdb/minds/" + name)
+	resp, err := md.Config.Get("/projects/mindsdb/minds/" + name)
 	if err != nil {
 		return nil, err
 	}

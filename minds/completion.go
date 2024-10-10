@@ -31,14 +31,14 @@ func (md *Minds) Completion(model, message string, stream bool) (string, <-chan 
 		return "", nil, fmt.Errorf("failed to  marshal request body: %w", err)
 	}
 
-	baseURL := strings.TrimSuffix(md.config.BaseURL, "/api")
+	baseURL := strings.TrimSuffix(md.Config.BaseURL, "/api")
 	chatURL := fmt.Sprintf("%s/chat/completions", baseURL)
 
 	req, err := http.NewRequest("POST", chatURL, bytes.NewBuffer(requestData))
 	if err != nil {
 		return "", nil, fmt.Errorf("failed to create http request: %w", err)
 	}
-	req.Header = md.config.Headers()
+	req.Header = md.Config.Headers()
 
 	client := &http.Client{}
 	resp, err := client.Do(req)

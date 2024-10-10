@@ -5,7 +5,7 @@ import (
 )
 
 type Minds struct {
-	config *restapi.RestAPI
+	Config *restapi.RestAPI
 }
 
 type ResponseMind struct {
@@ -58,6 +58,6 @@ type MessageDelta struct {
 
 func NewMinds(api *restapi.RestAPI) *Minds {
 	return &Minds{
-		config: api,
+		Config: api,
 	}
 }

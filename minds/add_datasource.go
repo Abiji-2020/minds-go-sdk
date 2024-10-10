@@ -23,7 +23,7 @@ func (md *Minds) AddDatasource(name string, Datasource datasource.DatabaseConfig
 		return err
 	}
 
-	_, err = md.config.Post("/projects/mindsdb/minds/"+name+"/datasources", body)
+	_, err = md.Config.Post("/projects/mindsdb/minds/"+name+"/datasources", body)
 	if err != nil {
 		return err
 	}

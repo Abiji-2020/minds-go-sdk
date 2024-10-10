@@ -19,7 +19,7 @@ func (md *Minds) Create(name string, Datasources []datasource.DatabaseConfig) (s
 
 	jsonData, _ := json.Marshal(data)
 
-	resp, err := md.config.Post("/projects/mindsdb/minds", jsonData)
+	resp, err := md.Config.Post("/projects/mindsdb/minds", jsonData)
 
 	if err != nil {
 		return "", err
