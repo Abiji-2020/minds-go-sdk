@@ -23,30 +23,30 @@ jobs:
         run: |
           TAG=$(git tag --sort=-creatordate | grep '^v' | head -n 1)
           echo "Latest tag: $TAG"
-          echo "::set-output name=latest_tag::$TAG"
+          echo "latest_tag=$TAG" >> $GITHUB_ENV
 
       - name: Determine new tag version
         id: new_version
         run: |
-          if [ -z "${{ steps.get_latest_tag.outputs.latest_tag }}" ]; then
+          if [ -z "${{ env.latest_tag }}" ]; then
             echo "No existing tag found, using v0.1.0 as the initial version"
-            echo "::set-output name=new_tag::v0.1.0"
+            echo "new_tag=v0.1.0" >> $GITHUB_ENV
           else
             # Extract the version components
-            IFS='.' read -r major minor patch <<< "${{ steps.get_latest_tag.outputs.latest_tag | sed 's/v//g' | sed 's/-.*//g' }}"
+            IFS='.' read -r major minor patch <<< "${{ env.latest_tag | sed 's/v//g' }}"
             new_minor=$((minor + 1))
             new_tag="v${major}.${new_minor}.0"
             echo "New tag: $new_tag"
-            echo "::set-output name=new_tag::$new_tag"
+            echo "new_tag=$new_tag" >> $GITHUB_ENV
           fi
 
       - name: Create new tag
         run: |
-          git tag ${{ steps.new_version.outputs.new_tag }}
-          echo "Created tag: ${{ steps.new_version.outputs.new_tag }}"
+          git tag ${{ env.new_tag }}
+          echo "Created tag: ${{ env.new_tag }}"
 
       - name: Push new tag
         run: |
-          git push origin ${{ steps.new_version.outputs.new_tag }}
+          git push origin ${{ env.new_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
