@@ -13,13 +13,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Fetch tags
+      run: git fetch --tags
+
     - name: Get latest tag
       id: get_latest_tag
-      run: echo "latest_tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+      run: echo "latest_tag=$(git describe --tags --abbrev=0 || echo '')" >> $GITHUB_ENV
 
     - name: Set new tag
       id: set_new_tag
       run: |
+        set -e  # Exit on error
         if [ -z "${{ env.latest_tag }}" ]; then
           echo "new_tag=v0.1.0" >> $GITHUB_ENV  # Starting version if no tag exists
         else
