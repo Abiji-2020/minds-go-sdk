@@ -1,3 +1,8 @@
+[![GitHub Actions CI](https://img.shields.io/github/actions/workflow/status/Abiji-2020/minds-go-sdk/go.yml?style=flat-square&logo=github&logoColor=white&label=Go%20SDK%20Test)](https://github.com/Abiji-2020/minds-go-sdk/actions/workflows/go.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Abiji-2020/minds-go-sdk)](https://goreportcard.com/report/github.com/Abiji-2020/minds-go-sdk)
+[![GitHub License](https://img.shields.io/github/license/Abiji-2020/minds-go-sdk)](https://github.com/Abiji-2020/minds-go-sdk/blob/main/LICENSE)
+
+
 # Minds `Go` SDK
 
 The `Minds Go SDK` is a Software Development Kit for the [Minds](https://mindsdb.com/minds) (Unofficial). Built with the REST API Endpoints given by the Minds. With the help of this the  `Go Developers` can able to easily interact with the Minds. Currently the Minds SDK allows the developer to `Create`, `Update`, `Add Datasource`, `Delete` , `List` and `Get` the Minds, and Datasource. As of now it uses the Http package from the `go` to communicate with the Endpoints of Minds. 
