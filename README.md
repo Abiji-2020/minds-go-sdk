@@ -1,4 +1,4 @@
-[![GitHub Actions CI](https://img.shields.io/github/actions/workflow/status/Abiji-2020/minds-go-sdk/go.yml?style=flat-square&logo=github&logoColor=white&label=Go%20SDK%20Test)](https://github.com/Abiji-2020/minds-go-sdk/actions/workflows/go.yml)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Abiji-2020/minds-go-sdk/go.yml)](https://github.com/Abiji-2020/minds-go-sdk/actions/workflows/go.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Abiji-2020/minds-go-sdk)](https://goreportcard.com/report/github.com/Abiji-2020/minds-go-sdk)
 [![GitHub License](https://img.shields.io/github/license/Abiji-2020/minds-go-sdk)](https://github.com/Abiji-2020/minds-go-sdk/blob/main/LICENSE)
 
